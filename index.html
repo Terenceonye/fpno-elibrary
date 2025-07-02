@@ -350,7 +350,7 @@
           data.data.forEach(book => {
             const extClass = book.extn.toLowerCase() === 'pdf' ? 'fa-file-pdf text-danger' : 'fa-file text-primary';
             const cleanedPreview = cleanPreview(book.preview?.substring(0, 60).trim() || `<p class="small" style="font-style: italic; color: #888; background: #f9f9f9; padding: 8px 12px; border-radius: 6px;">
-  <i class="fas fa-info-circle me-1"></i> No preview available
+  <i class="fas fa-info-circle me-1"></i> No Excerpt Available
 </p>`);
             const displayFilename = book.filenames.replace(/-/g, ' ').trim(); // replace all hyphens with space
 
