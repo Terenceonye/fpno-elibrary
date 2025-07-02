@@ -321,8 +321,8 @@
 
 
     async function fetchBooks(page = 1) {
-      const search = document.getElementById('search-input').value;
-      const department = document.getElementById('department-select').value;
+      const search = document.getElementById('search-input').value.trim();
+      const department = document.getElementById('department-select').value.trim();
       const container = document.getElementById('courses-container');
       const loading = document.getElementById('loading');
 
