@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FPNO E-Library</title>
+  <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Public Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      position: relative;
+      width: 100%;
+      height: auto;
+      background: linear-gradient(0deg, rgba(0, 4, 47, 0.74), rgba(0, 4, 47, 0.74)), url('10bbd7ca3b5ca77c65a2b49040526436180db258.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 40px 20px 100px;
+    }
+
+    .hero-logo {
+      width: 180px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      line-height: 1.4;
+      max-width: 100%;
+    }
+
+    .search-bar {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: white;
+      border-radius: 60px;
+      padding: 10px 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 782px;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+      flex-wrap: nowrap;
+      /* Add this */
+      align-items: stretch;
+      /* Optional, aligns inputs better */
+    }
+
+    .search-bar input,
+    .search-bar select,
+    .search-bar .ts-wrapper {
+      border: none;
+      box-shadow: none;
+      outline: none;
+      font-size: 16px;
+      color: #444;
+      background-color: transparent;
+      min-width: 180px;
+      flex: 1;
+
+      /* Ensure inputs take available space */
+      flex-grow: 1;
+      flex-shrink: 1;
+      /* Allow inputs to shrink */
+
+    }
+
+    .search-bar input,
+    .search-bar .ts-wrapper {
+      border: 1px solid #0982B8;
+      border-radius: 10px;
+    }
+
+    .search-bar button {
+      background: #0982B8;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      color: white;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .departments {
+      padding: 20px;
+      overflow-x: auto;
+      white-space: nowrap;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .departments span {
+      display: inline-block;
+      margin-right: 20px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .departments span:hover,
+    .departments span.active {
+      color: #0982B8;
+    }
+
+    .courses {
+      padding: 30px 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .course-card {
+      background: #f5f5f5;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .course-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .course-card h5 {
+      font-weight: 600;
+    }
+
+    .course-card p {
+      color: #666;
+    }
+
+    .btn-download {
+      background: #0982B8;
+      color: white;
+      border-radius: 20px;
+      padding: 6px 20px;
+      border: none;
+      transition: background 0.3s;
+      text-decoration: none;
+    }
+
+    .btn-download:hover {
+      background: #066591;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 20px;
+      font-weight: 500;
+      color: #0982B8;
+    }
+
+    @media (max-width: 576px) {
+      .search-bar {
+        flex-direction: column;
+        border-radius: 20px;
+        padding: 15px;
+      }
+
+      .search-bar button {
+        width: 100%;
+        border-radius: 10px;
+        margin-top: 10px;
+      }
+    }
+
+    .ts-wrapper.single .ts-control {
+      display: flex;
+      align-items: center;
+      flex-wrap: nowrap;
+      min-height: 42px;
+      padding: 6px 12px;
+      gap: 8px;
+      /* spacing between item, input, and clear */
+    }
+
+    .ts-wrapper.single .ts-control .item {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex-shrink: 1;
+    }
+
+    .ts-wrapper.single .ts-control input {
+      flex: 1;
+      min-width: 0;
+      height: auto;
+      padding: 0;
+      margin: 0;
+      border: none;
+    }
+
+    .ts-wrapper.single .ts-control .clear-button {
+      flex-shrink: 0;
+      cursor: pointer;
+      font-size: 18px;
+      margin-left: auto;
+      line-height: 1;
+    }
+
+    .ts-wrapper.single .ts-control .clear-button {
+      opacity: 0.4;
+      transition: opacity 0.2s;
+    }
+
+    .ts-wrapper.single .ts-control:hover .clear-button {
+      opacity: 1;
+    }
+
+    .ts-control {
+      border: none;
+      height: 100%;
+      background: transparent !important;
+      box-shadow: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="hero text-center d-flex flex-column align-items-center justify-content-center">
+    <img src="logo.png" alt="FPNO Logo" class="hero-logo d-block mx-auto mx-md-0" />
+    <h1>Welcome to Federal Polytechnic<br />Nekede, E-Library</h1>
+
+    <div class="search-bar">
+      <input type="text" placeholder="Search Books or Articles" class="form-control search-input" id="search-input" />
+      <select id="department-select"> </select>
+      <button id="search-btn"><i class="fas fa-search"></i></button>
+    </div>
+  </div>
+
+
+
+  <div class="courses" id="courses-container"></div>
+
+  <div class="loading" id="loading">
+    <i class="fas fa-spinner fa-spin"></i> Loading...
+  </div>
+
+  <div class="text-center mt-4 mb-3" id="pagination"></div>
+
+
+
+  <script>
+
+    const BASE_URL = 'https://elibrary.kingsweys.com'
+    let departmentSelect; // declare globally
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // document.getElementById('search-input').focus();
+
+      // Initialize TomSelect and store instance
+      departmentSelect = new TomSelect('#department-select', {
+        create: false,
+        maxItems: 1,
+        placeholder: 'Select Department...',
+        closeAfterSelect: true,
+        sortField: { field: 'text', direction: 'asc' },
+      });
+
+
+      fetchDepartments();
+      fetchBooks();
+    });
+
+    // Search button listener
+    document.getElementById('search-btn').addEventListener('click', () => {
+      fetchBooks();
+    });
+
+
+    async function fetchDepartments() {
+
+
+      try {
+        const res = await fetch(`${BASE_URL}/api/getdepartments`);
+        const data = await res.json();
+
+        if (data.success && Array.isArray(data.departments)) {
+          // Reset TomSelect options
+          departmentSelect.clearOptions();
+          // departmentSelect.addOption({ value: '', text: 'Select Department...' });
+          departmentSelect.refreshOptions();
+
+
+
+          data.departments.forEach(dept => {
+            // Add to TomSelect
+            departmentSelect.addOption({ value: dept, text: dept });
+            departmentSelect.refreshOptions(false);
+
+            // Add department tab
+
+          });
+
+          departmentSelect.refreshOptions(false); // ensure options are updated
+        }
+      } catch (err) {
+        console.error('Failed to load departments:', err);
+      }
+    }
+
+
+    async function fetchBooks(page = 1) {
+      const search = document.getElementById('search-input').value;
+      const department = document.getElementById('department-select').value;
+      const container = document.getElementById('courses-container');
+      const loading = document.getElementById('loading');
+
+      container.innerHTML = '';
+      loading.style.display = 'block';
+
+      const cleanPreview = (text) => {
+        return text
+          .replace(/(\n\s*){2,}/g, '\n')    // collapse multiple \n into one
+          .replace(/\.{3,}/g, '...')        // collapse 3+ dots
+          .replace(/\n/g, ' ')              // replace \n with space
+          .replace(/\s{2,}/g, ' ')          // collapse multiple spaces
+          .trim();
+      };
+
+      try {
+        const res = await fetch(`${BASE_URL}/api/elibrary?page=${page}&limit=10&department=${encodeURIComponent(department)}&search=${encodeURIComponent(search)}`);
+        const data = await res.json();
+
+        if (data.success && data.data.length) {
+          const currentPage = data.pagination.page;
+          const totalPages = data.pagination.pages;
+          renderPagination(currentPage, totalPages);
+
+          data.data.forEach(book => {
+            const extClass = book.extn.toLowerCase() === 'pdf' ? 'fa-file-pdf text-danger' : 'fa-file text-primary';
+            const cleanedPreview = cleanPreview(book.preview?.substring(0, 60).trim() || `<p class="small" style="font-style: italic; color: #888; background: #f9f9f9; padding: 8px 12px; border-radius: 6px;">
+  <i class="fas fa-info-circle me-1"></i> No preview available
+</p>`);
+            const displayFilename = book.filenames.replace(/-/g, ' ').trim(); // replace all hyphens with space
+
+            container.innerHTML += `
+          <div class="course-card">
+            <h5>${displayFilename}</h5>
+            <p class="small">${cleanedPreview}</p>
+           
+            <a href="https://fpn.netpro.software/Uploads/${book.id}.${book.extn}" target="_blank" class="btn-download mt-2">
+              <i class="fas fa-external-link-alt"></i> View Online
+            </a>
+          </div>`;
+          });
+        } else {
+          container.innerHTML = `
+  <div style="
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+  ">
+    <div class="text-center" style="
+      border: 1px dashed #ccc;
+      border-radius: 8px;
+      background: #fefefe;
+      color: #555;
+      font-style: italic;
+      max-width: 100%df;
+      width: 100%;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      padding: 24px;
+    ">
+      <i class="fas fa-search fa-2x mb-3 text-info"></i>
+      <p style="font-size: 1.1rem; margin: 0;">
+        No books matched your search criteria.
+      </p>
+    </div>
+  </div>
+`;
+
+          container.style.display = 'flex';
+
+
+          document.getElementById('pagination').innerHTML = '';
+        }
+      } catch (error) {
+        console.error('Error fetching books:', error);
+        container.innerHTML = `<div style="
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+  ">
+    <div class="text-center" style="
+      border: 1px dashed #ccc;
+      border-radius: 8px;
+      background: #fefefe;
+      color: #555;
+      font-style: italic;
+      max-width: 100%df;
+      width: 100%;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      padding: 24px;
+    ">
+      <i class="fas fa-search fa-2x mb-3 text-danger"></i>
+      <p class="text-danger" style="font-size: 1.1rem; margin: 0;">
+        Error loading Books.
+      </p>
+    </div>
+  </div>`;
+
+        container.style.display = 'flex'
+      } finally {
+        loading.style.display = 'none';
+      }
+    }
+
+
+
+    function renderPagination(current, totalPages) {
+      const pagination = document.getElementById('pagination');
+      pagination.innerHTML = '';
+
+      const createButton = (text, page, isActive = false, isDisabled = false) => {
+        const btn = document.createElement('button');
+        btn.innerText = text;
+        btn.className = `btn btn-sm mx-1 ${isActive ? 'btn-primary' : 'btn-outline-primary'}`;
+        btn.disabled = isDisabled;
+        btn.onclick = () => fetchBooks(page);
+        return btn;
+      };
+
+      const range = 2;
+      const start = Math.max(1, current - range);
+      const end = Math.min(totalPages, current + range);
+
+      if (current > 1) pagination.appendChild(createButton('« Prev', current - 1));
+      for (let i = start; i <= end; i++) {
+        pagination.appendChild(createButton(i, i, i === current));
+      }
+      if (current < totalPages) pagination.appendChild(createButton('Next »', current + 1));
+    }
+
+  </script>
+</body>
+
+</html>
