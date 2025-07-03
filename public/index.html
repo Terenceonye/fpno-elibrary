@@ -124,8 +124,30 @@
     .courses {
       padding: 30px 20px;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 20px;
+      grid-template-columns: repeat(1, 1fr);
+      /* Small screens: 1 column */
+    }
+
+    @media (min-width: 586px) {
+      .courses {
+        grid-template-columns: repeat(2, 1fr);
+        /* Medium screens: 3 columns */
+      }
+    }
+
+    @media (min-width: 976px) {
+      .courses {
+        grid-template-columns: repeat(3, 1fr);
+        /* Medium screens: 3 columns */
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .courses {
+        grid-template-columns: repeat(4, 1fr);
+        /* Large screens: 4 columns */
+      }
     }
 
     .course-card {
@@ -138,8 +160,9 @@
       flex-direction: column;
       justify-content: space-between;
       height: 100%;
-      /* ensures all cards grow to match height */
     }
+
+
 
 
     .course-card:hover {

@@ -8,9 +8,13 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Serve static files from the "public" directory
+app.use(express.static("public"));
 
 app.get("/", (req, res) => {
-  res.send("UP and Running");
+  res.render("index");
 });
 
 app.get("/api/dbtest", async (req, res) => {
